@@ -1,9 +1,9 @@
-fetch("./data/02-2023/groups.json")
+fetch("./data/08-2023/groups.json")
   .then(response => {
     return response.json();
   })
   .then(groups => {
-    fetch("./data/02-2023/data.json")
+    fetch("./data/08-2023/data.json")
       .then(response => {
         return response.json();
       })
