@@ -1,0 +1,6 @@
+.env
+scrapper
+scrapper/*
+scrapper/**
+*.DS_Store
+DS_Store
