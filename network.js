@@ -12,10 +12,15 @@ fetch("./data/08-2023/groups.json")
         const width = window.innerWidth
         const height = window.innerHeight
 
+        var initial_zoom = d3.zoomIdentity.translate(500, 400).scale(0.02);
+
+        var zoom_handler = d3.zoom().on("zoom", zoom_actions);
 
         const svg = d3.select('svg')
           .attr('width', width)
           .attr('height', height)
+          .call(zoom_handler)
+          .call(zoom_handler.transform, initial_zoom)
 
 
         var color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -29,25 +34,17 @@ fetch("./data/08-2023/groups.json")
           .force("center", d3.forceCenter(width / 2, height / 2))
           .force("collide", d3.forceCollide().radius(d => { return d.type === 'user' ? 50 * radius_people : 100 * radius }).iterations(3))
 
-        var g = svg.append("g")
-          .attr("class", "everything");
+        var zoomable = svg.append("g")
+          .attr("class", "zoomable").attr("transform", initial_zoom)
 
-
-        var node = g.append("g")
-          .attr("class", "nodes")
-          .selectAll("g")
-          .data(graph.nodes)
-          .enter().append("g")
-
-
-        var link = g.append("g")
-          .attr("class", "links")
-          .selectAll("line")
-          .data(graph.links)
+        var link = zoomable.append("g").attr("class", "links").selectAll(".link").data(graph.links)
           .enter().append("line")
           .attr("stroke-width", function (d) { return Math.sqrt(d.value); })
           .style('stroke', 'white')
 
+        var node = zoomable.append("g").attr("class", "nodes").selectAll(".node")
+          .data(graph.nodes)
+          .enter().append("g")
 
         var circles = node.append("circle")
           .attr("r", function (d) {
@@ -60,6 +57,7 @@ fetch("./data/08-2023/groups.json")
               return 'red'
             }
           })
+
         // Create a drag handler and append it to the node object instead
         var drag_handler = d3.drag()
           .on("start", dragstarted)
@@ -122,20 +120,11 @@ fetch("./data/08-2023/groups.json")
           d.fy = null;
         }
 
-
-        //add zoom capabilities 
-        var zoom_handler = d3.zoom()
-          .on("zoom", zoom_actions);
-
-        zoom_handler(svg);
-
         function zoom_actions() {
-          g.attr("transform", d3.event.transform)
+          if (zoomable) {
+                zoomable.attr("transform", d3.event.transform)
+          }
         }
-
-        /*setTimeout(() => {
-          simulation.stop();
-        }, 2000)*/
 
         // Add one dot in the legend for each name.
 

@@ -106,7 +106,7 @@ def list_accreds(units, write_accreds_json=False):
     return accreds
     
 
-def compute_unit_size(units, accreds):
+def compute_units_size(units, accreds):
     '''
     Compute the size of each unit
 
@@ -117,19 +117,19 @@ def compute_unit_size(units, accreds):
     Return:
         units (list): list of units with size
     '''
-    unit_size = dict()
+    units_size = dict()
     for accred in accreds:
         unit_id = accred['unit_id']
-        if(unit_id in unit_size):
-            unit_size[unit_id] += 1
+        if(unit_id in units_size):
+            units_size[unit_id] += 1
         else:
-            unit_size[unit_id] = 1
+            units_size[unit_id] = 1
 
     for i, unit in enumerate(units):
-        if (unit['id'] not in unit_size):
+        if (unit['id'] not in units_size):
             size = 0
         else:
-            size = unit_size[unit['id']]
+            size = units_size[unit['id']]
         units[i] = {
             **unit,
             'size': size
@@ -137,7 +137,7 @@ def compute_unit_size(units, accreds):
 
     return units
 
-def compute_users(accreds, write_users_json=True):
+def compute_users_size(accreds, write_users_json=True):
     '''
     Compute users from accreds and add number of accreds for each user.
     
