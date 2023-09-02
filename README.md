@@ -1,5 +1,8 @@
 # :busts_in_silhouette: [EPFL Graphsociatif](https://antoninfaure.github.io/graphsociatif/)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![pages-build-deployment](https://github.com/antoninfaure/graphsociatif/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/antoninfaure/graphsociatif/actions/workflows/pages/pages-build-deployment)
+
 A force graph visualization of the associative network at EPFL.
 
 This project provides a set of Python scripts to retrieve, process, and visualize information about units and accreditations of associations at EPFL (École Polytechnique Fédérale de Lausanne).
